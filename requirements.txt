@@ -1,2 +1,2 @@
 cryptography==42.0.5
-pycryptodome==pycryptodome-3.20.0.dist-info
+pycryptodome==3.20.0
