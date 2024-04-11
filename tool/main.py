@@ -1,7 +1,7 @@
-from imports import *
+from tool.imports import *
 
-from encrypt_file import encrypt_file
-from decrypt_file import decrypt_file
+from tool.encrypt_file import encrypt_file
+from tool.decrypt_file import decrypt_file
 
 # Test the encryption/decryption
 if __name__ == "__main__":

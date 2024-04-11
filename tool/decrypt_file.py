@@ -1,7 +1,7 @@
-from imports import *
+from tool.imports import *
 
-from generate_master_key import generate_master_key
-from derive_keys import derive_keys
+from tool.generate_master_key import generate_master_key
+from tool.derive_keys import derive_keys
 
 # Function to decrypt a file
 def decrypt_file(input_file, output_file, password, hash_algorithm="sha256", iterations=100000):

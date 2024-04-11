@@ -1,7 +1,7 @@
-from imports import *
+from tool.imports import *
 
-from generate_master_key import generate_master_key
-from derive_keys import derive_keys
+from tool.generate_master_key import generate_master_key
+from tool.derive_keys import derive_keys
 
 # Function to encrypt a file
 def encrypt_file(input_file, output_file, password, hash_algorithm="sha256", iterations=100000, algorithm="AES256"):
@@ -26,7 +26,6 @@ def encrypt_file(input_file, output_file, password, hash_algorithm="sha256", ite
     else:
         raise ValueError("Invalid algorithm")
 
-    # encrypted_data = cipher.encrypt(data)
     padded_data = pad(data, AES.block_size)
 
     encrypted_data = cipher.encrypt(padded_data)

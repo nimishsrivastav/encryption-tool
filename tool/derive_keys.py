@@ -1,4 +1,4 @@
-from imports import *
+from tool.imports import *
 
 # Function to derive an encryption key and an HMAC key from the master key using PBKDF2 with one iteration
 def derive_keys(master_key):
