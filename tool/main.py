@@ -11,7 +11,7 @@ if __name__ == "__main__":
     password = "password123"
     
     encryption_start_time = time.time()
-    encrypt_file(input_file, output_file_encrypted, password, algorithm="AES256")
+    encrypt_file(input_file, output_file_encrypted, password, algorithm="AES128")
     encryption_end_time = time.time()
     encryption_time = encryption_end_time - encryption_start_time
     print(f"Encryption time: {encryption_time:.6f} seconds")
