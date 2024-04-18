@@ -15,16 +15,10 @@ def generate_master_key(password, salt, iterations=100000, hash_algorithm="sha25
         bytes                   : The derived master key.
     """
     
-    # Selecting appropriate hashing algorithm based on user input
-    if hash_algorithm == "sha256":
-        algorithm = hashes.SHA256()
-    elif hash_algorithm == "sha512":
-        algorithm = hashes.SHA512()
-    
     # Creation of PBKDF2HMAC key derivation function
     kdf = PBKDF2HMAC(
-        algorithm=algorithm,
-        length=32,                          # Length of derived key
+        algorithm=hashes.SHA256() if hash_algorithm == "sha256" else hashes.SHA512(),           # Selecting appropriate hashing algorithm based on user input
+        length=32,                                                                              # Length of derived key
         salt=salt,
         iterations=iterations,
         backend=default_backend()

@@ -4,7 +4,7 @@ from tool.generate_master_key import generate_master_key
 from tool.derive_keys import derive_keys
 
 # Function to encrypt a file
-def encrypt_file(input_file, output_file, password, hash_algorithm="sha512", algorithm="AES256", iterations=100000):
+def encrypt_file(input_file, output_file, password, hash_algorithm="sha512", encryption_algorithm="AES256", iterations=100000):
     """
     Encrypt a file using a password-based key derivation, encryption, and HMAC process.
 
@@ -31,11 +31,11 @@ def encrypt_file(input_file, output_file, password, hash_algorithm="sha512", alg
     iv = get_random_bytes(16)
 
     # Encrypt the data using the specified algorithm
-    if algorithm == "AES256":
+    if encryption_algorithm == "AES256":
         cipher = AES.new(encryption_key, AES.MODE_CBC, iv)
-    elif algorithm == "AES128":
+    elif encryption_algorithm == "AES128":
         cipher = AES.new(encryption_key[:16], AES.MODE_CBC, iv)
-    elif algorithm == "3DES":
+    elif encryption_algorithm == "3DES":
         iv = get_random_bytes(8)                                                        # Generate an 8-byte IV for 3DES
         cipher = DES3.new(encryption_key[:24], DES3.MODE_CBC, iv)
     else:
@@ -46,10 +46,7 @@ def encrypt_file(input_file, output_file, password, hash_algorithm="sha512", alg
     encrypted_data = cipher.encrypt(padded_data)
 
     # Create an HMAC of the IV and the encrypted data
-    if hash_algorithm == "sha256":
-        h = HMAC.new(hmac_key, digestmod=SHA256)
-    elif hash_algorithm == "sha512":
-        h = HMAC.new(hmac_key, digestmod=SHA512)
+    h = HMAC.new(hmac_key, digestmod=SHA256 if hash_algorithm == "sha256" else SHA512)
 
     h.update(iv)
     h.update(encrypted_data)
@@ -57,8 +54,9 @@ def encrypt_file(input_file, output_file, password, hash_algorithm="sha512", alg
 
     # Write the metadata and encrypted data to the output file
     with open(output_file, 'wb') as f:
-        f.write(b"ALGORITHM:" + algorithm.encode() + b"\n")
-        f.write(b"SALT:" + salt + b"\n")
-        f.write(b"IV:" + iv + b"\n")
-        f.write(b"HMAC:" + hmac_value + b"\n")
+        f.write(b"HASHING ALGORITHM:" + hash_algorithm.encode().upper() + b"\n")
+        f.write(b"ENCRYPTION ALGORITHM:" + encryption_algorithm.encode() + b"\n")
+        f.write(b"SALT:" + base64.b64encode(salt) + b"\n")
+        f.write(b"IV:" + base64.b64encode(iv) + b"\n")
+        f.write(b"HMAC:" + base64.b64encode(hmac_value) + b"\n")
         f.write(encrypted_data)

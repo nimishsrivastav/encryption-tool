@@ -11,3 +11,4 @@ from Crypto.Util.Padding import pad, unpad
 
 import os
 import time
+import base64

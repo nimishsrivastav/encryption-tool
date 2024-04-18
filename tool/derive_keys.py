@@ -1,7 +1,7 @@
 from tool.imports import *
 
 # Function to derive an encryption key and an HMAC key from the master key using PBKDF2 with one iteration
-def derive_keys(master_key):
+def derive_keys(master_key, hash_algorithm="sha256"):
     """
     Derive an encryption key and an HMAC key from the master key using PBKDF2 with one iteration.
 
@@ -14,8 +14,8 @@ def derive_keys(master_key):
     
     # Deriving encryption key
     kdf = PBKDF2HMAC(
-        algorithm=hashes.SHA256(),
-        length=32,
+        algorithm=hashes.SHA256() if hash_algorithm == "sha256" else hashes.SHA512(),       # Selecting appropriate hashing algorithm based on user input
+        length=32,                                                                          # Length of derived key
         salt=b"encryption_salt",
         iterations=1,
         backend=default_backend()
@@ -24,8 +24,8 @@ def derive_keys(master_key):
 
     # Deriving HMAC key
     kdf = PBKDF2HMAC(
-        algorithm=hashes.SHA256(),
-        length=32,
+        algorithm=hashes.SHA256() if hash_algorithm == "sha256" else hashes.SHA512(),       # Selecting appropriate hashing algorithm based on user input
+        length=32,                                                                          # Length of derived key
         salt=b"hmac_salt",
         iterations=1,
         backend=default_backend()

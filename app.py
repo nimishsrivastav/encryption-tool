@@ -1,12 +1,13 @@
-from flask import Flask, render_template, request, redirect, send_file, url_for
+from flask import Flask, render_template, request, redirect, send_file, session
 
-import os
+import os, time
 
 # Importing encryption and decryption functions
 from tool.encrypt_file import encrypt_file
 from tool.decrypt_file import decrypt_file
 
 app = Flask(__name__)
+app.secret_key = 'secret_key_for_session'
 
 # Folder structure and allowed file extensions
 BASE_FOLDER = 'files'
@@ -46,6 +47,7 @@ def upload_file():
             return redirect('/decrypt/' + file.filename)
     else:
         error_message = 'File extension not allowed. Allowed extensions are: ' + ', '.join(ALLOWED_EXTENSIONS)
+
         return render_template('index.html', error=error_message)
 
     # Stay on same page after file is uploaded
@@ -57,13 +59,31 @@ def encrypt(filename):
         password = request.form['password']
         
         hash_algorithm = request.form['hash_algorithm']
-        algorithm = request.form['algorithm']
+        encryption_algorithm = request.form['algorithm']
 
-        encrypt_file(os.path.join(app.config['UPLOAD_FOLDER'], filename), os.path.join(app.config['ENCRYPTED_FOLDER'], filename), password, hash_algorithm, algorithm)
+        base_filename, file_extension = os.path.splitext(filename)
+        encrypted = "encrypted"
+
+        new_filename = f"{base_filename}_{hash_algorithm.upper()}_{encryption_algorithm}_{encrypted}{file_extension}"
+
+        encryption_start_time = time.time()
+        encrypt_file(os.path.join(app.config['UPLOAD_FOLDER'], filename), 
+                     os.path.join(app.config['ENCRYPTED_FOLDER'], new_filename), 
+                     password, hash_algorithm, encryption_algorithm)
+        encryption_end_time = time.time()
+
+        resulting_time = encryption_end_time - encryption_start_time
+        encryption_time = f"Encryption Time: {resulting_time:.4f} seconds"
+
+        # Store encryption_time in session
+        session['encryption_time'] = encryption_time
         
-        return redirect('/download/' + filename)
+        return redirect('/download/' + new_filename)
     
-    return render_template('encrypt.html', filename=filename)
+    # Retrieve encryption_time from session
+    encryption_time_str = session.pop('encryption_time', None)
+
+    return render_template('encrypt.html', filename=filename, encryption_time=encryption_time_str)
 
 @app.route('/download/<filename>')
 def download(filename):
@@ -74,13 +94,26 @@ def decrypt(filename):
     if request.method == 'POST':
         password = request.form['password']
 
-        hash_algorithm = request.form['hash_algorithm']
+        new_filename = filename.replace("encrypted", "decrypted")
 
-        decrypt_file(os.path.join(app.config['ENCRYPTED_FOLDER'], filename), os.path.join(app.config['DECRYPTED_FOLDER'], filename), password, hash_algorithm)
-        
-        return redirect('/download_decrypted/' + filename)
+        decryption_start_time = time.time()
+        decrypt_file(os.path.join(app.config['ENCRYPTED_FOLDER'], filename), 
+                     os.path.join(app.config['DECRYPTED_FOLDER'], new_filename), 
+                     password)
+        decryption_end_time = time.time()
+
+        resulting_time = decryption_end_time - decryption_start_time
+        decryption_time = f"Decryption Time: {resulting_time:.4f} seconds"
+
+        # Store encryption_time in session
+        session['decryption_time'] = decryption_time
+
+        return redirect('/download_decrypted/' + new_filename)
     
-    return render_template('decrypt.html', filename=filename)
+    # Retrieve decryption_time from session
+    decryption_time_str = session.pop('decryption_time', None)
+
+    return render_template('decrypt.html', filename=filename, decryption_time=decryption_time_str)
 
 @app.route('/download_decrypted/<filename>')
 def download_decrypted(filename):

@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Decrypt File</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<title>Decrypt File</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
-  <div class="container mt-5">
-    <h1>Decrypt File</h1>
+	<div class="container mt-5">
+    	<h1>Decrypt File</h1>
 
-    <form action="/decrypt/{{ filename }}" method="post" style="margin-top: 2%;">
-      <div class="mb-3">
-        <label for="hash_algorithm" class="form-label">Select hash algorithm:</label>
-        <select class="form-select" name="hash_algorithm" id="hash_algorithm">
-          <option value="sha256">SHA-256</option>
-          <option value="sha512">SHA-512</option>
-        </select>
-      </div>
+		<form action="/decrypt/{{ filename }}" method="post" style="margin-top: 2%;">
+			<div class="mb-3">
+				<label for="password" class="form-label">Enter Password:</label>
+				<input type="password" class="form-control" id="password" name="password">
+			</div>
 
-      <div class="mb-3">
-        <label for="password" class="form-label">Enter Password:</label>
-        <input type="password" class="form-control" id="password" name="password">
-      </div>
+			<button id="decrypt-file" type="submit" class="btn btn-primary">Decrypt File</button>
+		</form>
 
-      <button type="submit" class="btn btn-primary">Decrypt File</button>
-    </form>
+    	<p id="decryption-time" style="display: none; margin-top: 2%;">{{ decryption_time }}</p>
 
-    <button name="home-page" class="btn btn-info" onclick="window.location.href='/'" style="margin-top: 5%;">Go Back to Homepage</button>
-  </div>
+		<button name="home-page" class="btn btn-info" onclick="window.location.href='/'" style="margin-top: 5%;">Go Back to Homepage</button>
+	</div>
+
+  	<script>
+		document.getElementById('decrypt-file').addEventListener('click', () => {
+      		document.getElementById('decryption-time').style.display = "block";
+    	});
+  </script>
 </body>
 </html>
