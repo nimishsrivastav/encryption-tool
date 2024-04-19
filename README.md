@@ -33,17 +33,10 @@ These packages can be installed by running this command present in the project: 
 ## Folder Structure for File Storage
 Below is the folder structure for file storage in the utility:
 
-📦files
- ┣ 📂decrypted_files
- ┃ ┗ 📜test.txt
- ┣ 📂encrypted_files
- ┃ ┗ 📜test.txt.enc
- ┗ 📂uploaded_files
- ┃ ┣ 📜test.txt
- ┃ ┗ 📜test.txt.enc
-
-These folders will be created by the utility if not present. Files will be stored as below: 
 ![folder_structure_for_file_storage](/assets/images/folder_structure_for_file_storage.PNG)
+
+These folders will be created by the utility if not present.
+
 
 ## Working of Utility
 Below is the first page which user sees when the utility is started: ![welcome_page](/assets/images/welcome_page.PNG)
