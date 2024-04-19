@@ -8,7 +8,7 @@
 	<div class="container mt-5">
     	<h1>Encrypt File</h1>
 
-    	<form action="/encrypt/{{ filename }}" method="post" style="margin-top: 2%;">
+    	<form action="/encrypt/{{ filename }}" method="post" style="margin-top: 2%; width: 50%;">
       		<div class="mb-3">
         		<label for="hash_algorithm" class="form-label">Select hash algorithm:</label>
         		<select class="form-select" name="hash_algorithm" id="hash_algorithm">
@@ -27,13 +27,20 @@
       		</div>
 
 			<div class="mb-3">
+				<label for="iterations" class="form-label">Enter Number of Iterations (Default Value is 100000):</label>
+				<input type="number" class="form-control" value="100000" id="iterations" name="iterations">
+			</div>
+
+			<div class="mb-3">
 				<label for="password" class="form-label">Enter Password:</label>
 				<input type="password" class="form-control" id="password" name="password">
 			</div>
 
 			<button id="encrypt-file" type="submit" class="btn btn-primary">Encrypt File</button>
 
-			<p id="encryption-time" style="display: none; margin-top: 2%;">{{ encryption_time }}</p>
+			<p id="encryption-time" style="display: none; margin-top: 2%;">
+				<strong>Encryption Time: </strong> {{ encryption_time }} seconds
+			</p>
     	</form>
 
   		<button name="home-page" class="btn btn-info" onclick="window.location.href='/'" style="margin-top: 5%;">Go Back to Homepage</button>

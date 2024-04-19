@@ -8,7 +8,7 @@
 	<div class="container mt-5">
     	<h1>Decrypt File</h1>
 
-		<form action="/decrypt/{{ filename }}" method="post" style="margin-top: 2%;">
+		<form action="/decrypt/{{ filename }}" method="post" style="margin-top: 2%; width: 50%;">
 			<div class="mb-3">
 				<label for="password" class="form-label">Enter Password:</label>
 				<input type="password" class="form-control" id="password" name="password">
@@ -17,7 +17,17 @@
 			<button id="decrypt-file" type="submit" class="btn btn-primary">Decrypt File</button>
 		</form>
 
-    	<p id="decryption-time" style="display: none; margin-top: 2%;">{{ decryption_time }}</p>
+		{% if error %}
+        	<p style="color: red;">
+				<strong>Error: </strong> {{ error }}
+			</p>
+    	{% else %}
+			{% if decryption_time %}
+				<p id="decryption-time" style="display: none; margin-top: 2%;">
+					<strong>Decryption Time: </strong> {{ decryption_time }} seconds
+				</p>
+			{% endif %}
+		{% endif %}
 
 		<button name="home-page" class="btn btn-info" onclick="window.location.href='/'" style="margin-top: 5%;">Go Back to Homepage</button>
 	</div>

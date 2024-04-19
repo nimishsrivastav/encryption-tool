@@ -21,11 +21,11 @@ def encrypt_file(input_file, output_file, password, hash_algorithm="sha512", enc
     with open(input_file, 'rb') as f:
         data = f.read()
 
-    salt = os.urandom(16)                                                               # Generate a salt
-    master_key = generate_master_key(password, salt, iterations, hash_algorithm)        # Derive master key
+    # Generate a salt
+    salt = os.urandom(16)
 
-    # Derive encryption and HMAC keys from the master key
-    encryption_key, hmac_key = derive_keys(master_key)
+    master_key = generate_master_key(password, salt, iterations, hash_algorithm)        # Derive master key
+    encryption_key, hmac_key = derive_keys(master_key)                                  # Derive encryption and HMAC keys from the master key
 
     # Generate a random IV
     iv = get_random_bytes(16)
@@ -47,7 +47,6 @@ def encrypt_file(input_file, output_file, password, hash_algorithm="sha512", enc
 
     # Create an HMAC of the IV and the encrypted data
     h = HMAC.new(hmac_key, digestmod=SHA256 if hash_algorithm == "sha256" else SHA512)
-
     h.update(iv)
     h.update(encrypted_data)
     hmac_value = h.digest()
@@ -59,4 +58,6 @@ def encrypt_file(input_file, output_file, password, hash_algorithm="sha512", enc
         f.write(b"SALT:" + base64.b64encode(salt) + b"\n")
         f.write(b"IV:" + base64.b64encode(iv) + b"\n")
         f.write(b"HMAC:" + base64.b64encode(hmac_value) + b"\n")
+        f.write(b"ITERATIONS:" + str(iterations).encode() + b"\n")
         f.write(encrypted_data)
+        

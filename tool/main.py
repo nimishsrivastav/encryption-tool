@@ -1,3 +1,7 @@
+'''
+    This code was used to test the initial working of the tool and is not used anywhere in the tool.
+'''
+
 from tool.imports import *
 
 from tool.encrypt_file import encrypt_file
@@ -16,8 +20,8 @@ if __name__ == "__main__":
     encryption_time = encryption_end_time - encryption_start_time
     print(f"Encryption time: {encryption_time:.6f} seconds")
 
-    # decryption_start_time = time.time()
-    # decrypt_file(output_file_encrypted, output_file_decrypted, password)
-    # decryption_end_time = time.time()
-    # decryption_time = decryption_end_time - decryption_start_time
-    # print(f"Decryption time: {decryption_time:6f} seconds")
+    decryption_start_time = time.time()
+    decrypt_file(output_file_encrypted, output_file_decrypted, password)
+    decryption_end_time = time.time()
+    decryption_time = decryption_end_time - decryption_start_time
+    print(f"Decryption time: {decryption_time:6f} seconds")
