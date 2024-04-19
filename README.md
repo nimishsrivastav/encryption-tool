@@ -31,12 +31,16 @@ This utility uses following Python packages:
 These packages can be installed by running this command present in the project: `pip install -r requirements.txt`
 
 ## Folder Structure for File Storage
-Below is the folder structure for the utility:
+Below is the folder structure for file storage in the utility:
 
-files
-  L decrypted_files
-  L encrypted_files
-  L uploaded_files
+📦files
+ ┣ 📂decrypted_files
+ ┃ ┗ 📜test.txt
+ ┣ 📂encrypted_files
+ ┃ ┗ 📜test.txt.enc
+ ┗ 📂uploaded_files
+ ┃ ┣ 📜test.txt
+ ┃ ┗ 📜test.txt.enc
 
 These folders will be created by the utility if not present. Files will be stored as below: 
 ![folder_structure_for_file_storage](/assets/images/folder_structure_for_file_storage.PNG)
