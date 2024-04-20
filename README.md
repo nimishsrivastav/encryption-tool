@@ -38,6 +38,14 @@ Below is the folder structure for file storage in the utility:
 These folders will be created by the utility if not present.
 
 
+## Functions created
+1. Generation of master key [tool/generate_master_key.py](tool/generate_master_key.py)
+2. Key Derivation Function [tool/derive_keys.py](tool/derive_keys.py)
+3. File Encryption [tool/encrypt_file.py](tool/encrypt_file.py)
+4. File Decryption [tool/decrypt_file.py](tool/decrypt_file.py)
+5. The Flask Web App [app.py](app.py)
+
+
 ## Working of Utility
 Below is the first page which the user sees when the utility is started: ![welcome_page](/assets/images/welcome_page.PNG)
 
@@ -74,13 +82,6 @@ Below is the list of hashing and encryption algorithms used in this utility:
 | AES-128	| Encryption 	| AES-128 is a variant of the AES encryption standard with a key size of 128 bits. It is widely used for encrypting sensitive data in various security applications. AES-128 provides a good balance between security and performance, making it suitable for many encryption tasks. | - | 128 bits (16 bytes) | 128 bits (16 bytes) |
 | AES-256	| Encryption 	| AES-256 is a variant of the AES encryption standard with a key size of 256 bits. It is considered more secure than AES-128 due to its larger key size, which provides stronger security against brute-force attacks. AES-256 is often used in situations where stronger security guarantees are required, such as in government and military applications. | - | 128 bits (16 bytes) | 256 bits (32 bytes) |
 
-
-## Functions created
-1. Generation of master key [tool/generate_master_key.py](tool/generate_master_key.py)
-2. Key Derivation Function [tool/derive_keys.py](tool/derive_keys.py)
-3. File Encryption [tool/encrypt.py](tool/encrypt_file.py)
-4. File Decryption [tool/decrypt.py](tool/decrypt_file.py)
-5. The Flask Web App [app.py](app.py)
 
 ## Result
 The file is encrypted and decrypted successfully using the combinations of hashing and encryption algorithms mentioned in the [Introduction](#introduction) section. As of 2023[^1], OWASP recommended to use **600,000 iterations** for PBKDF2-HMAC-SHA256 and **210,000 iterations** for PBKDF2-HMAC-SHA512. Below are the times calculated for encryption and decryption for different iteration rounds while the file size is 1.97 KB :
